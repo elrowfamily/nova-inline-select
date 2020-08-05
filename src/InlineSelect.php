@@ -112,7 +112,7 @@ class InlineSelect extends Field
 
         $table = (new $relatedClass)->getTable();
 
-        $this->withMeta(['relationShip' => $table]);
+        $this->withMeta(['relationship' => $table]);
 
         $this->withMeta(['relatedId' => is_callable($relatedId) ? call_user_func($relatedId) : $relatedId]);
 

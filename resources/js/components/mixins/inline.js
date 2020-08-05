@@ -39,8 +39,10 @@ export default {
             let attribute = this.field.attribute.split(".");
             formData.append(attribute[1], this.value);
 
-            let relatedResource = this.field.relationShip;
+            let relatedResource = this.field.relationship;
             let relatedResourceId = this.field.relatedId;
+
+            formData.append('viaRelationship', relatedResource);
 
             return Nova.request().post(`/nova-api/${this.resourceName}/${this.resourceId}/update-attached/${relatedResource}/${relatedResourceId}`, formData, {
                 params: {

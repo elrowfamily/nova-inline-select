@@ -47,7 +47,12 @@
         methods: {
             attemptUpdate() {
                 if (this.field.detailTwoStepDisabled) {
-                    return this.submit();
+
+                    if (!this.field.isRelated){
+                        return this.submit();
+                    }else{
+                        return this.submitRelated();
+                    }
                 }
 
                 this.showUpdateButton = true;
