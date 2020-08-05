@@ -31,6 +31,33 @@ export default {
                 .finally(() => {
                     this.showUpdateButton = false;
                 });
+        },
+
+        async submitRelated() {
+
+            let formData = new FormData();
+            let attribute = this.field.attribute.split(".");
+            formData.append(attribute[1], this.value);
+
+            let relatedResource = this.field.relationShip;
+            let relatedResourceId = this.field.relatedId;
+
+            return Nova.request().post(`/nova-api/${this.resourceName}/${this.resourceId}/update-attached/${relatedResource}/${relatedResourceId}`, formData, {
+                params: {
+                    editing: true,
+                    editMode: 'update-attached',
+                }
+            })
+                .then(() => {
+                    let label = _.find(this.field.options, option => option.value == this.value).label;
+
+                    this.$toasted.show(`${this.field.name} updated to "${label}"`, { type: 'success' });
+                }, (response) => {
+                    this.$toasted.show(response, { type: 'error' });
+                })
+                .finally(() => {
+                    this.showUpdateButton = false;
+                });
         }
     }
 }

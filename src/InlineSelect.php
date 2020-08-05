@@ -102,4 +102,18 @@ class InlineSelect extends Field
     {
         return $this->inlineOnIndex();
     }
+
+    private function isRelated()
+    {
+        return $this->withMeta(['isRelated' => true]);
+    }
+
+    public function relatedWith(string $relatedClass, $relatedId){
+
+        $this->withMeta(['relationShip' => call_user_func([$relatedClass, 'getTable'])]);
+
+        $this->withMeta(['relatedId' => is_callable($relatedId) ? call_user_func($relatedId) : $relatedId]);
+
+        return $this->isRelated();
+    }
 }
