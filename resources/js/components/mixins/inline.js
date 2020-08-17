@@ -2,7 +2,8 @@ export default {
     data() {
         return {
             showUpdateButton: false,
-            lastRetrievedAt: null
+            lastRetrievedAt: null,
+            withTrashed: false
         }
     },
 
