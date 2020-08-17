@@ -1,7 +1,8 @@
 export default {
     data() {
         return {
-            showUpdateButton: false
+            showUpdateButton: false,
+            lastRetrievedAt: null
         }
     },
 
@@ -11,6 +12,11 @@ export default {
                 ? _.find(this.field.options, { value: this.field.value }).label
                 : this.field.value;
         }
+    },
+
+    mounted() {
+
+        this.updateLastRetrievedAtTimestamp();
     },
 
     methods: {
@@ -39,13 +45,14 @@ export default {
             let attribute = this.field.attribute.split(".");
             formData.append(attribute[1], this.value);
 
-            console.log(this.field);
-
             let relatedResource = this.field.relationship;
             let relatedResourceId = this.field.relatedId;
 
             formData.append('viaRelationship', relatedResource);
             formData.append(relatedResource, relatedResourceId);
+
+            formData.append(relatedResource + '_trashed', this.withTrashed);
+            formData.append('_retrieved_at', this.lastRetrievedAt);
 
             return Nova.request().post(`/nova-api/${this.resourceName}/${this.resourceId}/update-attached/${relatedResource}/${relatedResourceId}`, formData, {
                 params: {
@@ -63,6 +70,10 @@ export default {
                 .finally(() => {
                     this.showUpdateButton = false;
                 });
-        }
+        },
+
+        updateLastRetrievedAtTimestamp() {
+            this.lastRetrievedAt = Math.floor(new Date().getTime() / 1000)
+        },
     }
 }
