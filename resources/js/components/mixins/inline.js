@@ -15,11 +15,6 @@ export default {
         }
     },
 
-    mounted() {
-
-        this.updateLastRetrievedAtTimestamp();
-    },
-
     methods: {
         async submit() {
             let formData = new FormData();
@@ -51,6 +46,8 @@ export default {
 
             formData.append('viaRelationship', relatedResource);
             formData.append(relatedResource, relatedResourceId);
+
+            this.updateLastRetrievedAtTimestamp();
 
             formData.append(relatedResource + '_trashed', this.withTrashed);
             formData.append('_retrieved_at', this.lastRetrievedAt);
