@@ -39,6 +39,8 @@ export default {
             let attribute = this.field.attribute.split(".");
             formData.append(attribute[1], this.value);
 
+            console.log(this.field);
+
             let relatedResource = this.field.relationship;
             let relatedResourceId = this.field.relatedId;
 
